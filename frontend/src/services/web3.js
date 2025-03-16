@@ -46,8 +46,14 @@ export const initWeb3 = async () => {
         return { web3, escrowContract: null };
       }
     } catch (error) {
-      console.error('User denied account access', error);
-      return { web3: null, escrowContract: null };
+      if (error.code === 4001) {
+        // User denied account access
+        console.error('User denied account access', error);
+        throw new Error('User denied account access. Please grant access to continue.');
+      } else {
+        console.error('Error initializing web3', error);
+        throw new Error('Failed to initialize web3');
+      }
     }
   } else if (window.web3) {
     // Legacy dapp browsers
