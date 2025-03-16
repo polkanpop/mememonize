@@ -63,7 +63,13 @@ export const initWeb3 = async () => {
 
 // Get current account
 export const getCurrentAccount = async () => {
-  if (!web3) await initWeb3();
+  if (!web3) {
+    console.log("web3 not initialized, initializing now...");
+    await initWeb3();
+  }
+  if (!web3) {
+    throw new Error("Failed to initialize web3");
+  }
   const accounts = await web3.eth.getAccounts();
   return accounts[0];
 };
@@ -116,4 +122,3 @@ export default {
   completeTransaction,
   cancelTransaction,
 };
-
