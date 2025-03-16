@@ -10,13 +10,6 @@ function AssetDetailCard({ asset, onPurchase }) {
     )
   }
 
-  // Create a safe handler for purchase
-  const handlePurchase = () => {
-    if (typeof onPurchase === "function") {
-      onPurchase(asset)
-    }
-  }
-
   return (
     <Card>
       <Grid container>
@@ -56,19 +49,17 @@ function AssetDetailCard({ asset, onPurchase }) {
 
             <Box sx={{ mt: 2 }}>
               <Typography variant="subtitle2" color="text.secondary">
-                Token ID: {asset.token_id || "N/A"}
+                Token ID: {asset.token_id}
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
-                Owner:{" "}
-                {asset.owner_address
-                  ? `${asset.owner_address.substring(0, 8)}...${asset.owner_address.substring(asset.owner_address.length - 6)}`
-                  : "N/A"}
+                Owner: {asset.owner_address.substring(0, 8)}...
+                {asset.owner_address.substring(asset.owner_address.length - 6)}
               </Typography>
             </Box>
 
             <Box sx={{ mt: 4 }}>
               {asset.is_available && (
-                <Button variant="contained" color="primary" size="large" fullWidth onClick={handlePurchase}>
+                <Button variant="contained" color="primary" size="large" fullWidth onClick={() => onPurchase(asset)}>
                   Purchase Now
                 </Button>
               )}

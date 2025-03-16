@@ -1,5 +1,3 @@
-"use client"
-
 import { Link as RouterLink } from "react-router-dom"
 import {
   Table,
@@ -13,10 +11,7 @@ import {
   Chip,
   Link,
   Button,
-  Stack,
-  Tooltip,
 } from "@mui/material"
-import { BugReport as BugReportIcon } from "@mui/icons-material"
 
 function getStatusColor(status) {
   switch (status.toLowerCase()) {
@@ -36,7 +31,7 @@ function formatDate(dateString) {
   return date.toLocaleString()
 }
 
-function TransactionTable({ transactions = [], onComplete, onCancel, onDebug }) {
+function TransactionTable({ transactions = [] }) {
   if (transactions.length === 0) {
     return (
       <Typography variant="body1" sx={{ textAlign: "center", my: 4 }}>
@@ -56,7 +51,7 @@ function TransactionTable({ transactions = [], onComplete, onCancel, onDebug }) 
             <TableCell>Seller</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Status</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -79,45 +74,10 @@ function TransactionTable({ transactions = [], onComplete, onCancel, onDebug }) 
                 <Chip label={transaction.status} color={getStatusColor(transaction.status)} size="small" />
               </TableCell>
               <TableCell>
-                <Stack direction="row" spacing={1}>
-                  {transaction.status === "pending" && (
-                    <>
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => onComplete && onComplete(transaction)}
-                      >
-                        Complete
-                      </Button>
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        color="error"
-                        onClick={() => onCancel && onCancel(transaction)}
-                      >
-                        Cancel
-                      </Button>
-                    </>
-                  )}
-                  {onDebug && (
-                    <Tooltip title="Debug Transaction">
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        color="info"
-                        onClick={() => onDebug(transaction)}
-                        sx={{ minWidth: "40px", px: 1 }}
-                      >
-                        <BugReportIcon fontSize="small" />
-                      </Button>
-                    </Tooltip>
-                  )}
-                </Stack>
-                {transaction.transaction_hash && (
-                  <Typography variant="caption" display="block" sx={{ mt: 1, fontSize: "0.7rem" }}>
-                    TX: {transaction.transaction_hash.substring(0, 10)}...
-                  </Typography>
+                {transaction.status === "pending" && (
+                  <Button size="small" variant="outlined" color="primary">
+                    Complete
+                  </Button>
                 )}
               </TableCell>
             </TableRow>
